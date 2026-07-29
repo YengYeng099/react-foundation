@@ -78,10 +78,12 @@ const router = createBrowserRouter([
   },
 ]);
 
+
+
 const root = document.getElementById("root");
 
 ReactDOM.createRoot(root).render(
-<Provider store={makeStore()}>
-            <RouterProvider router={router} />)
-          </Provider>
-)
+  <Provider store={makeStore()}>
+    <RouterProvider router={router} />
+  </Provider>,
+);

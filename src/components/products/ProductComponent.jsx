@@ -33,7 +33,7 @@ export default function ProductComponent({
         <img
           src={image}
           alt="Product Image"
-          className="object-contain w-full h-[270px] fill"
+          className="object-contain w-full h-67.5 fill"
         />
       </div>
     </div>
