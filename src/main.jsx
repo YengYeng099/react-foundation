@@ -14,6 +14,8 @@ import Layout from "./Layout.jsx";
 import AuthLayout from "./layout/AuthLayout.jsx";
 import LoginComponent from "./components/auth/LoginComponent.jsx";
 import RegisterComponent from "./components/auth/RegisterComponent.jsx";
+import { Provider } from 'react-redux'
+import { makeStore } from "./redux/store.js";
 
 const router = createBrowserRouter([
   // dashboardlayout
@@ -78,4 +80,8 @@ const router = createBrowserRouter([
 
 const root = document.getElementById("root");
 
-ReactDOM.createRoot(root).render(<RouterProvider router={router} />);
+ReactDOM.createRoot(root).render(
+<Provider store={makeStore()}>
+            <RouterProvider router={router} />)
+          </Provider>
+)
