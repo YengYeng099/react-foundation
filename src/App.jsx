@@ -10,22 +10,11 @@ import { Suspense, lazy } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import LoadingComponent from "./components/LoadingComponent";
 import { Link } from "react-router";
+import { useGetAllProductsQuery } from "./components/API/ecommerceApi";
 
 function App() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-   const loader = async() => {
-    const response = await fetch(
-      `${import.meta.env.VITE_BASE_ISHOP_URL}/products`,
-    );
-    const result = await response.json();
-    setProducts(result?.content);
-
-   }
-   loader()
-    
-  }, []);
-
+  const {data,isLoading,error} = useGetAllProductsQuery([]);
+  console.log(data)
   const ProductComponent = lazy(
     () => import("./components/products/ProductComponent"),
   );
@@ -39,7 +28,7 @@ function App() {
 
         {/* add loading */}
         <Suspense fallback={<LoadingComponent />}>
-          {products.map(({ uuid, name, priceOut, thumbnail, category }) => (
+          {data?.content.map(({ uuid, name, priceOut, thumbnail, category }) => (
             <Link  key={uuid} to={`/product/${uuid}`}>
               <ProductComponent
                 title={name}

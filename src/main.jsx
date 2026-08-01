@@ -16,6 +16,8 @@ import LoginComponent from "./components/auth/LoginComponent.jsx";
 import RegisterComponent from "./components/auth/RegisterComponent.jsx";
 import { Provider } from 'react-redux'
 import { makeStore } from "./redux/store.js";
+import CreateProduct from "./pages/CreateProduct.jsx";
+import UpdateProduct from "./pages/UpdateProduct.jsx";
 
 const router = createBrowserRouter([
   // dashboardlayout
@@ -39,8 +41,8 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-         path: "/",
-         element: <App/>,
+        path: "/",
+        element: <App />,
       },
       {
         path: "/about",
@@ -54,22 +56,30 @@ const router = createBrowserRouter([
         path: "/contact",
         element: <Contact />,
       },
+      {
+        path: "/createProduct",
+        element: <CreateProduct />,
+      },
+      {
+        path: "/UpdateProduct",
+        element: <UpdateProduct />,
+      },
     ],
   },
   // auth layout (register, login)
   {
-    path: '/auth',
-    element: <AuthLayout/>,
+    path: "/auth",
+    element: <AuthLayout />,
     children: [
       {
-        path: '/auth/login',
-        element: <LoginComponent/>
+        path: "/auth/login",
+        element: <LoginComponent />,
       },
       {
-        path: '/auth/register',
-        element: <RegisterComponent/>
-      }
-    ]
+        path: "/auth/register",
+        element: <RegisterComponent />,
+      },
+    ],
   },
   {
     // custom not found page

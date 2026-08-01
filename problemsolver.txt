@@ -1,0 +1,50 @@
+Ready for review
+Select text to add comments on the plan
+Why removeFromCart doesn't actually work
+Context
+You asked why removeFromCart works in CartDisplayComponent.jsx. It doesn't — clicking the X button should throw a ReferenceError, and even if that were fixed, the reducer wouldn't remove the item. This file documents the two bugs and the fix.
+
+Bug 1: ReferenceError on click
+CartDisplayComponent.jsx:67-75:
+
+<button
+  onClick={() => {
+    dispatch(
+      removeFromCart({uuid,thumbnail, title, price, description }),
+    )}
+  }
+>
+uuid, thumbnail, title, price, description are bare identifiers — never destructured from pro (the item from products.map((pro) => ...) on line 19). Since ES modules run in strict mode, evaluating an undeclared identifier throws immediately: ReferenceError: uuid is not defined.
+
+Fix: reference pro.uuid, pro.thumbnail, pro.title, pro.price, pro.description.
+
+Bug 2: reducer never removes the item
+cartSlice.js:16-23:
+
+removeFromCart: (state, action) => {
+  let totalPrice = action.payload.price * state.quantity;
+  const item = state.products.find((p)=>p.uuid === action.payload.id);
+  if (item) {
+    state.totalPrice -= totalPrice;
+  }
+},
+Two problems:
+
+It looks up action.payload.id, but the dispatched payload carries uuid, not id — so item is always undefined and the price is never adjusted.
+Even when item is found, the reducer only decrements totalPrice — it never removes the product from state.products (no filter/splice), so the item stays in the cart.
+Fix:
+
+removeFromCart: (state, action) => {
+  const item = state.products.find((p) => p.uuid === action.payload.uuid);
+  if (item) {
+    state.totalPrice -= item.price * state.quantity;
+    state.products = state.products.filter((p) => p.uuid !== action.payload.uuid);
+  }
+},
+Files to change
+src/Features/cart/CartDisplayComponent.jsx — fix the dispatch payload (line 70).
+src/Features/cart/cartSlice.js — fix removeFromCart reducer (lines 16-23).
+Verification
+Add a product to the cart, click X, confirm the item disappears from the list and totalPrice decreases by the item's price.
+Confirm no console errors on click.
+Add Comment

@@ -1,32 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import ProductDetailComponent from "../components/products/ProductDetailComponent";
+import { useGetSingleProductsQuery } from "../components/API/ecommerceApi";
 
-export default function Product() {
-  const [detailProduct, setDetailProduct] = useState({});
+export default function Product() { 
 
   const { uuid } = useParams();
   console.log(`==> uuid: ${uuid}`)
+  const {data} = useGetSingleProductsQuery(uuid);
 
-  useEffect( () => {
-     const loader = async() => {
-       const response = await fetch(
-      `${import.meta.env.VITE_BASE_ISHOP_URL}/products/${uuid}`,
-    );
-    console.log(`==> REsponse: ${response}`)
-    const singleProduct = await response.json();
-    setDetailProduct(singleProduct);
-     }
-     loader()
-  },[uuid]);
-
-  const { name, description, thumbnail, priceOut } = detailProduct;
+  // const { name, description, thumbnail, priceOut } = data
   return (
     <ProductDetailComponent
-      title={name}
-      description={description}
-      thumbnail={thumbnail}
-      price={priceOut}
+      uuid = {data?.uuid}
+      title={data?.name}
+      description={data?.description}
+      thumbnail={data?.thumbnail}
+      price={data?.priceOut}
     />
   );
 }
