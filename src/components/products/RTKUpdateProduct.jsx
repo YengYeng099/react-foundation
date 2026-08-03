@@ -5,7 +5,7 @@ import UpdateProduct from '../../pages/UpdateProduct';
 export default function RTKUpdateProduct() {
     const [updateProductRequest,{data:updateProductResponse}] = useUpdateProductByUuidMutation();
     const newProduct = {
-      name: "Urban Minimal Tee - Summer Collection",
+      name: "Vintage pillar curtain",
       description:
         "Premium minimalist t-shirt perfect for summer vibes. Comfortable, breathable fabric with bold cultural design elements.",
       stockQuantity: 120,
@@ -35,7 +35,8 @@ export default function RTKUpdateProduct() {
           ],
         },
       ],
-      thumbnail: "https://assets.example.com/horizon-tee-thumbnail.jpg",
+      thumbnail:
+        "https://i.pinimg.com/736x/23/cd/28/23cd280e6152c42dca9ff9cca7753c62.jpg",
       warranty: "Lifetime Quality Guarantee",
       availability: true,
       images: [
@@ -52,7 +53,7 @@ export default function RTKUpdateProduct() {
       updateProductRequest({
         accessToken: import.meta.env.VITE_ACCESS_TOKEN,
         updateProduct: newProduct,
-        uuid: "f86db1d3-094e-472f-974e-217dd8c71bf8",
+        uuid: "6961392e-c8f2-417b-862b-5321814a15666",
       });
     }
   return (

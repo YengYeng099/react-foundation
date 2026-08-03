@@ -5,56 +5,58 @@ export default function RTKCreateProduct() {
     // const Create Porduct
     const[createProductRequest, {data}] = useAddNewProductMutation();
     const newProduct = {
-  "name": "Chheng Macbook air m4",
-  "description": "Ultra-thin and lightweight MacBook Air M4 with exceptional performance for everyday computing, content creation, and professional work.",
-  "computerSpec": {
-    "processor": "Apple M4 (8-core CPU)",
-    "ram": "16GB Unified Memory",
-    "storage": "512GB SSD",
-    "gpu": "10-core GPU",
-    "os": "macOS Sonoma",
-    "screenSize": "13.6 inch Liquid Retina",
-    "battery": "52.6Wh (up to 18 hours)"
-  },
-  "stockQuantity": 32,
-  "priceIn": 899,
-  "priceOut": 1199.00,
-  "discount": 15.0,
-  "color": [
-    {
-      "color": "Midnight",
-      "images": [
+      name: "Chheng Macbook air m4",
+      description:
+        "Ultra-thin and lightweight MacBook Air M4 with exceptional performance for everyday computing, content creation, and professional work.",
+      computerSpec: {
+        processor: "Apple M4 (8-core CPU)",
+        ram: "16GB Unified Memory",
+        storage: "512GB SSD",
+        gpu: "10-core GPU",
+        os: "macOS Sonoma",
+        screenSize: "13.6 inch Liquid Retina",
+        battery: "52.6Wh (up to 18 hours)",
+      },
+      stockQuantity: 32,
+      priceIn: 899,
+      priceOut: 1199.0,
+      discount: 15.0,
+      color: [
+        {
+          color: "Midnight",
+          images: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuVyy-0GgSagjvbe8w2WaD2N-HaIJmsA1Rc3LIA9NFuA&s=10",
+            "https://cdn.example.com/products/chheng-macbook-m4/midnight-2.jpg",
+          ],
+        },
+        {
+          color: "Silver",
+          images: [
+            "https://cdn.example.com/products/chheng-macbook-m4/silver-1.jpg",
+            "https://cdn.example.com/products/chheng-macbook-m4/silver-2.jpg",
+          ],
+        },
+        {
+          color: "Space Gray",
+          images: [
+            "https://cdn.example.com/products/chheng-macbook-m4/gray-1.jpg",
+            "https://cdn.example.com/products/chheng-macbook-m4/gray-2.jpg",
+          ],
+        },
+      ],
+      thumbnail:
+        "https://i.pinimg.com/originals/b3/e4/5f/b3e45f7fe1fb748d8f38cfa39175d6b2.gif",
+      images: [
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuVyy-0GgSagjvbe8w2WaD2N-HaIJmsA1Rc3LIA9NFuA&s=10",
-        "https://cdn.example.com/products/chheng-macbook-m4/midnight-2.jpg"
-      ]
-    },
-    {
-      "color": "Silver",
-      "images": [
-        "https://cdn.example.com/products/chheng-macbook-m4/silver-1.jpg",
-        "https://cdn.example.com/products/chheng-macbook-m4/silver-2.jpg"
-      ]
-    },
-    {
-      "color": "Space Gray",
-      "images": [
-        "https://cdn.example.com/products/chheng-macbook-m4/gray-1.jpg",
-        "https://cdn.example.com/products/chheng-macbook-m4/gray-2.jpg"
-      ]
-    }
-  ],
-  "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuVyy-0GgSagjvbe8w2WaD2N-HaIJmsA1Rc3LIA9NFuA&s=10",
-  "images": [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuVyy-0GgSagjvbe8w2WaD2N-HaIJmsA1Rc3LIA9NFuA&s=10",
-    "https://cdn.example.com/products/chheng-macbook-m4/side.jpg",
-    "https://cdn.example.com/products/chheng-macbook-m4/open.jpg"
-  ],
-  "warranty": "1 Year AppleCare+ Coverage",
-  "availability": true,
-  "categoryUuid": "462d9f60-8346-45ab-b8b3-a597d240965b",
-  "supplierUuid": "7dd85516-733b-4d47-a445-583c225fb833",
-  "brandUuid": "c273f461-4492-4f00-9d69-8e12d0dd9d8b"
-}
+        "https://cdn.example.com/products/chheng-macbook-m4/side.jpg",
+        "https://cdn.example.com/products/chheng-macbook-m4/open.jpg",
+      ],
+      warranty: "1 Year AppleCare+ Coverage",
+      availability: true,
+      categoryUuid: "462d9f60-8346-45ab-b8b3-a597d240965b",
+      supplierUuid: "7dd85516-733b-4d47-a445-583c225fb833",
+      brandUuid: "c273f461-4492-4f00-9d69-8e12d0dd9d8b",
+    };
     async function createProductFunc() {
         createProductRequest({
             accessToken: import.meta.env.VITE_ACCESS_TOKEN,

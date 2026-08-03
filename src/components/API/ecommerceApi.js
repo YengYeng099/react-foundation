@@ -1,10 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import baseApi from "./baseApi";
 
-export const ecommerceApi = createApi({
-  reducerPath: "ecommerceApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_ISHOP_URL,
-  }),
+export const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // crud
     getAllProducts: builder.query({
@@ -14,32 +10,23 @@ export const ecommerceApi = createApi({
       query: (uuid) => `/products/${uuid}`,
     }),
     addNewProduct: builder.mutation({
-      query: ({ createProduct, accessToken }) => ({
+      query: ({ createProduct}) => ({
         url: "/products",
         method: "POST",
-        headers: {
-          authorization: `Bearer ${accessToken}`,
-        },
         body: createProduct,
       }),
     }),
     updateProductByUuid: builder.mutation({
-      query: ({ updateProduct, accessToken, uuid }) => ({
+      query: ({ updateProduct, uuid }) => ({
         url: `/products/${uuid}`,
         method: "PUT",
-        headers: {
-          authorization: `Bearer ${accessToken}`,
-        },
         body: updateProduct,
       }),
     }),
     deleteProductByUuid: builder.mutation({
-      query: ({ accessToken, uuid }) => ({
+      query: ({ uuid }) => ({
         url: `/products/${uuid}`,
         method: "DELETE",
-        headers: {
-          authorization: `Bearer ${accessToken}`,
-        },
       }),
     }),
   }),
@@ -51,4 +38,4 @@ export const {
   useAddNewProductMutation,
   useUpdateProductByUuidMutation,
   useDeleteProductByUuidMutation,
-} = ecommerceApi;
+} = productApi;
