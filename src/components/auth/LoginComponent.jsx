@@ -2,7 +2,9 @@ import { Link } from "lucide-react"
 import { useForm } from "react-hook-form";
 import { useUserLoginMutation } from "../API/authApi";
 import {useNavigate} from "react-router"
-import z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
 export default function LoginComponent() {
   const formSchema = z.object({
     email: z
