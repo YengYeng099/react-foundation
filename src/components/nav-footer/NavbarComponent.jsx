@@ -4,18 +4,17 @@ import {
   DisclosurePanel,
   Menu,
   MenuButton,
-  MenuItem,
-  MenuItems,
 } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useSelector } from "react-redux";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router";
 import { useAppSelector } from "../../redux/hook";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", current: true },
-  { name: "About", href: "/about", current: false },
-  { name: "Contact", href: "/contact", current: false },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
 ];
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -23,144 +22,141 @@ function classNames(...classes) {
 export default function NavbarComponent() {
   const isLogined = false;
   const count = useAppSelector((state) => state.Counter.count);
-  console.log(`count${count}`)
+
   return (
-    <Disclosure as="nav" className="relative bg-gray-800">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
-          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            {/* Mobile menu button*/}
-            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
-              <span className="absolute -inset-0.5" />
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon
-                aria-hidden="true"
-                className="block size-6 group-data-open:hidden"
-              />
-              <XMarkIcon
-                aria-hidden="true"
-                className="hidden size-6 group-data-open:block"
-              />
-            </DisclosureButton>
-          </div>
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex shrink-0 items-center">
-              <a href="/">
-                <img
-                  alt="Your Company"
-                  src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                  className="h-8 w-auto"
-                />
-              </a>
-            </div>
-            <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4">
+    <Disclosure as="nav" className="sticky top-0 z-50 bg-white shadow-sm">
+      {({ open }) => (
+        <>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex h-16 items-center justify-between">
+              {/* Logo */}
+              <Link to="/" className="flex shrink-0 items-center gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 text-lg font-bold text-white">
+                  i
+                </span>
+                <span className="text-xl font-bold tracking-tight text-gray-900">
+                  ISHOP
+                </span>
+              </Link>
+
+              {/* Desktop nav links */}
+              <div className="hidden sm:flex sm:items-center sm:gap-1">
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
-                    href={item.href}
-                    aria-current={item.current ? "page" : undefined}
-                    className={classNames(
-                      item.current
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-white/5 hover:text-white",
-                      "rounded-md px-3 py-2 text-sm font-medium",
-                    )}
+                    to={item.href}
+                    className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-indigo-50 hover:text-indigo-600"
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
+              </div>
+
+              {/* Right side: auth + notifications */}
+              <div className="hidden sm:flex sm:items-center sm:gap-3">
+                <button
+                  type="button"
+                  className="relative rounded-full p-1.5 text-gray-400 hover:text-gray-600 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
+                >
+                  <span className="sr-only">View notifications</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                    />
+                  </svg>
+                  {count > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-semibold text-white">
+                      {count}
+                    </span>
+                  )}
+                </button>
+
+                <Menu as="div" className="relative">
+                  <MenuButton className="flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                    {isLogined ? (
+                      <img
+                        alt=""
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        className="size-9 rounded-full bg-gray-100 outline outline-offset-1 outline-gray-200"
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <Link
+                          to="/auth/login"
+                          className="rounded-md px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-indigo-50 hover:text-indigo-600"
+                        >
+                          Login
+                        </Link>
+                        <Link
+                          to="/auth/register"
+                          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-500"
+                        >
+                          Sign Up
+                        </Link>
+                      </div>
+                    )}
+                  </MenuButton>
+                </Menu>
+              </div>
+
+              {/* Mobile menu button */}
+              <div className="flex items-center sm:hidden">
+                <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XMarkIcon aria-hidden="true" className="block size-6" />
+                  ) : (
+                    <Bars3Icon aria-hidden="true" className="block size-6" />
+                  )}
+                </DisclosureButton>
               </div>
             </div>
           </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button
-              type="button"
-              className="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
-            >
-              <span className="absolute -inset-1.5" />
-              <span className="sr-only">View notifications</span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-</svg>
-<span>{count}</span>
-            </button>
 
-            {/* Profile dropdown */}
-            <Menu as="div" className="relative ml-3">
-              <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                {/* <span className="absolute -inset-1.5" />
-                <span className="sr-only">Open user menu</span> */}
-                {isLogined ? (
-                  <img
-                    alt=""
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
-                  />
-                ) : (
-                  <a
-                    class="px-6 py-2 min-w-[120px] text-center text-gray-200 border "
-                    href="/auth/register"
-                  >
-                    Get Start
-                  </a>
-                )}
-              </MenuButton>
-
-              {/* <MenuItems
-                transition
-                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-              >
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                  >
-                    Your profile
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                  >
-                    Settings
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                  >
-                    Sign out
-                  </a>
-                </MenuItem>
-              </MenuItems> */}
-            </Menu>
-          </div>
-        </div>
-      </div>
-
-      <DisclosurePanel className="sm:hidden">
-        <div className="space-y-1 px-2 pt-2 pb-3">
-          {navigation.map((item) => (
-            <DisclosureButton
-              key={item.name}
-              as="a"
-              href={item.href}
-              aria-current={item.current ? "page" : undefined}
-              className={classNames(
-                item.current
-                  ? "bg-gray-900 text-white"
-                  : "text-gray-300 hover:bg-white/5 hover:text-white",
-                "block rounded-md px-3 py-2 text-base font-medium",
-              )}
-            >
-              {item.name}
-            </DisclosureButton>
-          ))}
-        </div>
-      </DisclosurePanel>
+          {/* Mobile menu panel */}
+          <DisclosurePanel className="sm:hidden">
+            <div className="space-y-1 border-t border-gray-100 px-4 pt-2 pb-3">
+              {navigation.map((item) => (
+                <DisclosureButton
+                  key={item.name}
+                  as={Link}
+                  to={item.href}
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
+                >
+                  {item.name}
+                </DisclosureButton>
+              ))}
+              <div className="mt-3 flex flex-col gap-2 border-t border-gray-100 pt-3">
+                <DisclosureButton
+                  as={Link}
+                  to="/auth/login"
+                  className={classNames(
+                    "rounded-md px-3 py-2 text-center text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600",
+                  )}
+                >
+                  Login
+                </DisclosureButton>
+                <DisclosureButton
+                  as={Link}
+                  to="/auth/register"
+                  className="rounded-md bg-indigo-600 px-3 py-2 text-center text-base font-medium text-white hover:bg-indigo-500"
+                >
+                  Sign Up
+                </DisclosureButton>
+              </div>
+            </div>
+          </DisclosurePanel>
+        </>
+      )}
     </Disclosure>
   );
 }

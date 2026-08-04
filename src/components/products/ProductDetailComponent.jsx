@@ -3,7 +3,7 @@ import { increment } from "../../Features/counter/CounterSlice";
 import { addToCart } from "../../Features/cart/cartSlice";
 import { useAppDispatch } from "../../redux/hook"
 import CartDisplayComponent from "../../Features/cart/CartDisplayComponent";
-import { useDeleteProductByUuidMutation } from "../API/ecommerceApi";
+import { useDeleteProductByUuidMutation } from "../API/productApi";
 
 export default function ProductDetailComponent({
   uuid,thumbnail, title, price, description

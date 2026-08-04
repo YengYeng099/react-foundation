@@ -1,5 +1,5 @@
 import React from 'react'
-import { useUpdateProductByUuidMutation } from '../API/ecommerceApi'
+import { useUpdateProductByUuidMutation } from '../API/productApi'
 import UpdateProduct from '../../pages/UpdateProduct';
 
 export default function RTKUpdateProduct() {

@@ -5,6 +5,7 @@ export const authApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         UserLogin: builder.mutation({
             query:({userLoginRequest}) => ({
+                url : 'auth/login',
                 method: 'POST',
                 body: userLoginRequest,
             })

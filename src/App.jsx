@@ -10,7 +10,7 @@ import { Suspense, lazy } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import LoadingComponent from "./components/LoadingComponent";
 import { Link } from "react-router";
-import { useGetAllProductsQuery } from "./components/API/ecommerceApi";
+import { useGetAllProductsQuery } from "./components/API/productApi";
 
 function App() {
   const {data,isLoading,error} = useGetAllProductsQuery([]);

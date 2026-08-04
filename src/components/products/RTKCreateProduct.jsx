@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAddNewProductMutation } from '../API/ecommerceApi'
+import { useAddNewProductMutation } from '../API/productApi'
 
 export default function RTKCreateProduct() {
     // const Create Porduct

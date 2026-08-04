@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import ProductDetailComponent from "../components/products/ProductDetailComponent";
-import { useGetSingleProductsQuery } from "../components/API/ecommerceApi";
+import { useGetSingleProductsQuery } from "../components/API/productApi";
 
 export default function Product() { 
 
