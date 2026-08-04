@@ -1,7 +1,9 @@
 import { Link } from "lucide-react"
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserLoginMutation } from "../API/authApi";
-import {useNavigate} from "react-router"
+import { useNavigate } from "react-router"
+import {ToastContainer, toast} from 'react-toastify'
 import z from "zod"
 export default function LoginComponent() {
   const formSchema = z.object({
@@ -21,8 +23,9 @@ export default function LoginComponent() {
     register,
     handleSubmit,
     watch,
-    formState: { error },
+    formState: { errors },
   } = useForm({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -33,8 +36,11 @@ const handleLoginSubmit = async (data) =>{
     try {
       console.log(data)
       const result = await LoginRequest({userLoginRequest: data});
-      if(result?.data?.accessToken) {
-        navigate('/'),{replace:true}
+      if (result?.data?.accessToken) {
+        toast.success("Login Succesfully ! ")
+        setTimeout(() => {
+          navigate('/',{replace:true})
+        },5000)
       }
     }
     catch(error) {
@@ -43,6 +49,7 @@ const handleLoginSubmit = async (data) =>{
   }
   return (
     <section className="bg-gray-100 min-h-screen flex box-border justify-center items-center">
+      <ToastContainer />
       <div className=" rounded-2xl flex max-w-3xl p-5 items-center">
         <div className="md:w-1/2 px-8">
           <a href="/">
@@ -63,7 +70,7 @@ const handleLoginSubmit = async (data) =>{
               placeholder="Email"
               {...register("email")}
             />
-            {error?.email && <p className="text-red-500">{error.email.formState}</p> }
+            {errors?.email && <p className="text-red-500">{errors.email.message}</p> }
             <div className="relative">
               <input
                 className="p-2 rounded-xl border w-full"
@@ -73,6 +80,7 @@ const handleLoginSubmit = async (data) =>{
                 placeholder="Password"
                 {...register("password")}
               />
+              {errors?.password && <p className="text-red-500">{errors.password.message}</p> }
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={16}
@@ -141,9 +149,9 @@ const handleLoginSubmit = async (data) =>{
           </div>
           <div className="mt-4 text-sm flex justify-between items-center container-mr">
             <p className="mr-3 md:mr-0 ">If you don't have an account..</p>
-            <button className="hover:border register text-white bg-[#002D74] hover:border-gray-400 rounded-xl py-2 px-5 hover:scale-110 hover:bg-[#002c7424] font-semibold duration-300">
+            <a href="/auth/register"><button className="hover:border register text-white bg-[#002D74] hover:border-gray-400 rounded-xl py-2 px-5 hover:scale-110 hover:bg-[#002c7424] font-semibold duration-300">
               Register
-            </button>
+            </button></a>
           </div>
         </div>
         <div className="md:block hidden w-1/2">
