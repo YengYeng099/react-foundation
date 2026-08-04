@@ -12,9 +12,9 @@ export const authApi = baseApi.injectEndpoints({
         }),
         UserRegister: builder.mutation({
             query:({userRegisterRequest}) =>({
-                url:'/users/users-signip',
+                url:'/users/user-signup',
                 method: 'POST',
-                body : userLoginRequest
+                body : userRegisterRequest
             })
         })
     })
