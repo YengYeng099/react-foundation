@@ -49,7 +49,7 @@ export default function RegisterComponent() {
     };
     try {
       const result = await registerRequest({ userRegisterRequest})
-      if (result?.data?.accessToken) {
+      if (result?.data) {
         toast.success("Register Succesfully ! ")
         setTimeout(() => {
           navigation('/auth/login',{replace:true})
