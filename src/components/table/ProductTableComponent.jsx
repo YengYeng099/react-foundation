@@ -1,13 +1,19 @@
 import { Avatar, Button, Checkbox, Chip, Table } from "@heroui/react";
-
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { useGetAllProductsQuery } from "../API/productApi";
+import {Pagination} from "@heroui/react";
+
 
 
 export default function ProductTableComponent() {
-  const { data: products } = useGetAllProductsQuery([]);
-  console.log(`===> fetch product`, products?.content);
+  const [page, setPage] = useState(1);
+  console.log(page);
+  const { data: products } = useGetAllProductsQuery({ page: page });
+  console.log("Fetching products : ", products?.content);
+  console.log(products?.content.length);
+  const totalPages = Math.ceil((products?.content?.length) / 12);
+  console.log(totalPages);
   return (
     <div className="w-full col-span-2">
       <Table className="w-full p-8">
@@ -52,6 +58,29 @@ export default function ProductTableComponent() {
           </Table.Content>
         </Table.ScrollContainer>
       </Table>
+         <Pagination className="justify-center">
+      <Pagination.Content>
+        <Pagination.Item>
+          <Pagination.Previous onClick={() => setPage((p) => p <= 0 ? 0 : p - 1)}>
+            <Pagination.PreviousIcon />
+            <span>Previous</span>
+          </Pagination.Previous>
+        </Pagination.Item>
+        {Array.from({length: totalPages}, (_, i) => i + 1).map((p) => (
+          <Pagination.Item key={p}>
+            <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>
+              {page}
+            </Pagination.Link>
+          </Pagination.Item>
+        ))}
+        <Pagination.Item>
+          <Pagination.Next  onClick={() => setPage((p) => p + 1)}>
+            <span>Next</span>
+            <Pagination.NextIcon />
+          </Pagination.Next>
+        </Pagination.Item>
+      </Pagination.Content>
+    </Pagination>
     </div>
   );
 }
