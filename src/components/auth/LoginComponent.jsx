@@ -44,6 +44,7 @@ const handleLoginSubmit = async (data) =>{
       }
     }
     catch(error) {
+      toast.error("Login Failed");
       console.log(error)
     }
   }

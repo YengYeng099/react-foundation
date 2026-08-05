@@ -9,7 +9,9 @@ import { ToastContainer ,toast} from "react-toastify";
 export default function RegisterComponent() {
   const navigation = useNavigate();
   const formSchema = z.object({
-    username: z.string("Please input a username").min(1, { message: "Username is required" }),
+    username: z
+      .string()
+      .min(6, { message: "Username is required" }),
     email: z
       .string("Please input an email")
       .email({ pattern: z.regexes.html5Email }),
@@ -20,10 +22,10 @@ export default function RegisterComponent() {
       .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
       .regex(/[0-9]/, { message: "Password must contain at least one number" })
       .regex(/[^A-Za-z0-9]/, { message: "Password must contain at least one special character" }),
-    confirmPassword: z.string("Please confirm your password")
+    confirmPassword: z
+    .string("Please confirm your password")
   }).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"]
+    message: "Passwords do not match"
   });
   const [registerRequest] = useUserRegisterMutation()
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -57,6 +59,7 @@ export default function RegisterComponent() {
       }
     }
     catch (error) {
+      toast.error("Register Failed")
       console.log(error)
     }
   }
