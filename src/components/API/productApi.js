@@ -4,7 +4,7 @@ export const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // crud
     getAllProducts: builder.query({
-      query: () => "/products",
+      query: ({page=0,size=12}) => `/products?page${page}&size${size}`,
     }),
     getSingleProducts: builder.query({
       query: (uuid) => `/products/${uuid}`,

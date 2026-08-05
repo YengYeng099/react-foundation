@@ -1,99 +1,57 @@
+import { Avatar, Button, Checkbox, Chip, Table } from "@heroui/react";
+
+import React, { useEffect, useState } from "react";
+import { Icon } from "@iconify/react";
+import { useGetAllProductsQuery } from "../API/productApi";
 
 
-import React, { useMemo, useState } from 'react';
-import {
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  flexRender,
-} from '@tanstack/react-table';
-
-function ProductTableComponent() {
-  const [data] = useState([
-    { id: 1, name: 'John Doe', email: 'john@example.com', age: 28, city: 'New York' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com', age: 32, city: 'London' },
-    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', age: 45, city: 'Paris' },
-    { id: 4, name: 'Alice Williams', email: 'alice@example.com', age: 29, city: 'Tokyo' }
-  ]);
-
-  const columns = useMemo(() => [
-    {
-      accessorKey: 'id',
-      header: 'ID',
-    },
-    {
-      accessorKey: 'name',
-      header: 'Name',
-    },
-    {
-      accessorKey: 'email',
-      header: 'Email',
-    },
-    {
-      accessorKey: 'age',
-      header: 'Age',
-    },
-    {
-      accessorKey: 'city',
-      header: 'City',
-    },
-  ], []);
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-  });
-
+export default function ProductTableComponent() {
+  const { data: products } = useGetAllProductsQuery([]);
+  console.log(`===> fetch product`, products?.content);
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Employee Directory</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map(header => (
-                <th
-                  key={header.id}
-                  style={{
-                    padding: '12px',
-                    textAlign: 'left',
-                    borderBottom: '2px solid #ddd',
-                    cursor: header.column.getCanSort() ? 'pointer' : 'default',
-                    userSelect: 'none'
-                  }}
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  {{
-                    asc: ' ↑',
-                    desc: ' ↓',
-                  }[header.column.getIsSorted()] ?? null}
-                </th>
+    <div className="w-full col-span-2">
+      <Table className="w-full p-8">
+        <Table.ScrollContainer>
+          <Table.Content aria-label="Team members" className="min-w-[600px]">
+            <Table.Header>
+              <Table.Column isRowHeader>Product UUID</Table.Column>
+              <Table.Column>Image</Table.Column>
+              <Table.Column>Product Name</Table.Column>
+              <Table.Column>Quantity</Table.Column>
+              <Table.Column>Price</Table.Column>
+              <Table.Column>Category</Table.Column>
+              <Table.Column>Actions</Table.Column>
+            </Table.Header>
+            <Table.Body>
+              {products?.content?.map((u) => (
+                <Table.Row key={u?.uuid}>
+                  <Table.Cell>{u?.uuid}</Table.Cell>
+                  <Table.Cell>
+                    <img src={u?.thumbnail} alt="" className="w-12 h-12" />
+                  </Table.Cell>
+                  <Table.Cell>{u?.name}</Table.Cell>
+                  <Table.Cell>{u?.stockQuantity}</Table.Cell>
+                  <Table.Cell>{u?.priceOut}</Table.Cell>
+                  <Table.Cell>{u?.category?.name}</Table.Cell>
+                  <Table.Cell>
+                    <div className="flex items-center gap-1">
+                      <Button isIconOnly size="sm" variant="tertiary">
+                        <Icon className="size-4" icon="gravity-ui:eye" />
+                      </Button>
+                      <Button isIconOnly size="sm" variant="tertiary">
+                        <Icon className="size-4" icon="gravity-ui:pencil" />
+                      </Button>
+                      <Button isIconOnly size="sm" variant="danger-soft">
+                        <Icon className="size-4" icon="gravity-ui:trash-bin" />
+                      </Button>
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
               ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map(row => (
-            <tr key={row.id} style={{ borderBottom: '1px solid #eee' }}>
-              {row.getVisibleCells().map(cell => (
-                <td key={cell.id} style={{ padding: '12px' }}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            </Table.Body>
+          </Table.Content>
+        </Table.ScrollContainer>
+      </Table>
     </div>
   );
 }
-
-export default ProductTableComponent;

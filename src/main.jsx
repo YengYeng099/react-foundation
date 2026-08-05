@@ -18,6 +18,7 @@ import { Provider } from 'react-redux'
 import { makeStore } from "./redux/store.js";
 import CreateProduct from "./pages/CreateProduct.jsx";
 import UpdateProduct from "./pages/UpdateProduct.jsx";
+import ProductTableComponent from "./components/table/ProductTableComponent.jsx";
 
 const router = createBrowserRouter([
   // dashboardlayout
@@ -26,8 +27,8 @@ const router = createBrowserRouter([
     element: <DasboardLayout />,
     children: [
       {
-        path: "/dashboard/table-data",
-        element: <h1>Table Data</h1>,
+        path: "/dashboard/products",
+        element: <ProductTableComponent />,
       },
       {
         path: "/dashboard/users",
