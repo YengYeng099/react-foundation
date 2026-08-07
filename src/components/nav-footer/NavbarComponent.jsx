@@ -8,6 +8,7 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router";
 import { useAppSelector } from "../../redux/hook";
+import { useUserProfileQuery } from "../API/profileApi";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -22,6 +23,8 @@ function classNames(...classes) {
 export default function NavbarComponent() {
   const isLogined = false;
   const count = useAppSelector((state) => state.Counter.count);
+  const {data : profile,setProfile} = useUserProfileQuery();
+  
 
   return (
     <Disclosure as="nav" className="sticky top-0 z-50 bg-white shadow-sm">
@@ -102,6 +105,7 @@ export default function NavbarComponent() {
                         >
                           Sign Up
                         </Link>
+                        <div className="profileContainer rounded">{profile}</div>
                       </div>
                     )}
                   </MenuButton>
